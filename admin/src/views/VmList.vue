@@ -1,14 +1,23 @@
 <template>
   <div class="about">
-    <h1>服务器列表</h1>
+    <h1>虚拟机列表</h1>
     <el-button @click="resetOsFilter">清除操作系统过滤器</el-button>
     <el-button @click="clearFilter">清除所有过滤器</el-button>
-    <el-table :data="items" height="300" ref="filterTable">
-      <el-table-column prop="ser_name" label="服务器名称"></el-table-column>
-      <el-table-column prop="ser_ip" label="服务器IP"></el-table-column>
+    <el-table :data="items" ref="filterTable">
       <el-table-column
-        column-key="server_os"
-        prop="server_os"
+        width="250"
+        prop="master_ser.ser_name"
+        label="所属服务器"
+        sortable
+      ></el-table-column>
+      <el-table-column
+        prop="vm_name"
+        label="虚拟机名称"
+        width="250"
+      ></el-table-column>
+      <el-table-column
+        column-key="vm_os"
+        prop="vm_os"
         label="操作系统"
         :filters="[
           { text: 'Windows', value: 'Windows' },
@@ -22,7 +31,7 @@
           <el-button
             type="text"
             size="small"
-            @click="$router.push(`/servers/edit/${scope.row._id}`)"
+            @click="$router.push(`/vms/edit/${scope.row._id}`)"
             >编辑</el-button
           >
           <el-button type="text" size="small" @click="remove(scope.row)"
@@ -31,19 +40,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <template v-if="display_vms">
-      <el-card class="box-card" shadow="hover" style="margin-top: 1rem">
-        <div slot="header" class="clearfix">
-          <span>该服务器上挂载的虚拟机</span>
-          <el-button style="float: right; padding: 3px 0" type="text"
-            >前往删除</el-button
-          >
-        </div>
-        <div v-for="vm in server_vms" :key="vm._id" class="text item">
-          {{ vm.vm_name }}
-        </div>
-      </el-card>
-    </template>
   </div>
 </template>
 
@@ -52,42 +48,35 @@ export default {
   data() {
     return {
       items: [],
-      server_vms: [],
-      display_vms: false,
     };
   },
   methods: {
+    // get方式获取所有的虚拟机信息
     async fetch() {
-      const res = await this.$http.get("rest/servers");
+      const res = await this.$http.get("rest/vms");
       this.items = res.data;
     },
 
+    // delete方式删除虚拟机信息
     async remove(row) {
-      this.$confirm(`是否要删除服务器"${row.ser_name}"`, "提示", {
+      this.$confirm(`是否要删除虚拟机"${row.vm_name}"`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
       }).then(async () => {
-        const res = await this.$http.delete(`rest/servers/${row._id}`); // eslint-disable-line no-unused-vars
+        const res = await this.$http.delete(`rest/vms/${row._id}`); // eslint-disable-line no-unused-vars
         if (res.data.success == true) {
           this.$message({
             type: "success",
             message: "删除成功!",
           });
-        } else if (res.data.success == false) {
-          this.$message({
-            type: "warning",
-            message: res.data.title,
-          });
-          this.server_vms = res.data.server_vms;
-          this.display_vms = true;
         }
         this.fetch();
       });
     },
 
     resetOsFilter() {
-      this.$refs.filterTable.clearFilter("server_os");
+      this.$refs.filterTable.clearFilter("vm_os");
     },
     clearFilter() {
       this.$refs.filterTable.clearFilter();
@@ -106,26 +95,3 @@ export default {
   },
 };
 </script>
-
-<style>
-.text {
-  font-size: 14px;
-}
-
-.item {
-  margin-bottom: 18px;
-}
-
-.clearfix:before,
-.clearfix:after {
-  display: table;
-  content: "";
-}
-.clearfix:after {
-  clear: both;
-}
-
-.box-card {
-  width: 480px;
-}
-</style>

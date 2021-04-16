@@ -1,11 +1,11 @@
 <template>
   <el-container style="height: 100vh">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+      <!-- $route.path获取当前路由地址 -->
       <el-menu
         router
         unique-opened
-        :default-openeds="['1']"
-        :default-active="$route.path"
+        :default-active="$route.path" 
       >
         <el-submenu index="1">
           <template slot="title">
@@ -13,15 +13,27 @@
           </template>
           <el-menu-item-group>
             <template slot="title">服务器</template>
-            <el-menu-item index="/servers/create">新建服务器</el-menu-item>
-            <el-menu-item index="/servers/list">服务器列表</el-menu-item>
-            <el-menu-item index="/servers/search">服务器检索</el-menu-item>
+            <el-menu-item index="/servers/create" class="el-icon-edit-outline">
+              新建服务器</el-menu-item
+            >
+            <el-menu-item index="/servers/list" class="el-icon-menu">
+              服务器列表</el-menu-item
+            >
+            <el-menu-item index="/servers/search" class="el-icon-search">
+              服务器检索</el-menu-item
+            >
           </el-menu-item-group>
           <el-menu-item-group>
             <template slot="title">虚拟机</template>
-            <el-menu-item index="/virtual_machines/create">新建虚拟机</el-menu-item>
-            <el-menu-item index="/virtual_machines/list">虚拟机列表</el-menu-item>
-            <el-menu-item index="/virtual_machines/list">虚拟机检索</el-menu-item>
+            <el-menu-item index="/vms/create" class="el-icon-edit-outline"
+              > 新建虚拟机</el-menu-item
+            >
+            <el-menu-item index="/vms/list" class="el-icon-menu"
+              > 虚拟机列表</el-menu-item
+            >
+            <el-menu-item index="/vms/search" class="el-icon-search"
+              > 虚拟机检索</el-menu-item
+            >
           </el-menu-item-group>
         </el-submenu>
         <el-submenu index="2">
@@ -30,20 +42,25 @@
           </template>
           <el-menu-item-group>
             <template slot="title">管理员</template>
-            <el-menu-item index="/admin_users/create">新建管理员</el-menu-item>
-            <el-menu-item index="/admin_users/list">管理员列表</el-menu-item>
+            <el-menu-item index="/admin_users/create" class="el-icon-edit-outline"> 新建管理员</el-menu-item>
+            <el-menu-item index="/admin_users/list" class="el-icon-menu"> 管理员列表</el-menu-item>
           </el-menu-item-group>
         </el-submenu>
       </el-menu>
     </el-aside>
 
     <el-container>
-      <el-header style="text-align: right; font-size: 12px">
+      <el-header style="text-align: right; font-size: 15px">
         <el-dropdown trigger="click">
-          <i class="el-icon-setting" style="margin-right: 15px"></i>
+          <i class="el-icon-setting" style="margin-right: 15px; font-size:20px; color: #FFFFFF"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item @click.native="$router.push(`/admin_users/edit/${model._id}`)">查看个人资料</el-dropdown-item>
-            <el-dropdown-item @click.native="logout()">退出登录</el-dropdown-item>
+            <el-dropdown-item
+              @click.native="$router.push(`/admin_users/edit/${model._id}`)"
+              >查看个人资料</el-dropdown-item
+            >
+            <el-dropdown-item @click.native="logout()"
+              >退出登录</el-dropdown-item
+            >
           </el-dropdown-menu>
         </el-dropdown>
         <span>欢迎你，{{ this.model.username }}</span>
@@ -76,20 +93,20 @@ export default {
     },
 
     // 用户登出
-    async logout(){
-      this.$confirm(`是否要退出`, '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(async() => {
-            window.localStorage.removeItem('token')
-          this.$message({
-            type: 'success',
-            message: '成功退出!'
-          });
-          this.$router.push(`/login`);
+    async logout() {
+      this.$confirm(`是否要退出`, "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(async () => {
+        window.localStorage.removeItem("token");
+        this.$message({
+          type: "success",
+          message: "成功退出!",
         });
-    }
+        this.$router.push(`/login`);
+      });
+    },
   },
 
   created() {
@@ -101,7 +118,7 @@ export default {
 <style>
 .el-header,
 .el-footer {
-  background-color: #409eff;
+  background-color: #074cca;
   color: rgb(255, 253, 253);
   text-align: center;
   line-height: 60px;
