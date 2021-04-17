@@ -56,11 +56,11 @@
         <el-col :span="8">
           <el-form-item label="演示程序">
             <el-select
-              v-model="form.ser_location"
+              v-model="form.is_for_demo"
               placeholder="请选择是否存放demo"
             >
-              <el-option label="否" value=0></el-option>
-              <el-option label="是" value=1></el-option>
+              <el-option label="否" value="否"></el-option>
+              <el-option label="是" value="是"></el-option>
             </el-select>
           </el-form-item>
         </el-col>
