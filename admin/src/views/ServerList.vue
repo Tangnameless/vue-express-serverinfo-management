@@ -3,7 +3,7 @@
     <h1>服务器列表</h1>
     <el-button @click="resetOsFilter">清除操作系统过滤器</el-button>
     <el-button @click="clearFilter">清除所有过滤器</el-button>
-    <el-table :data="items" height="400" ref="filterTable">
+    <el-table :data="items" height="300" ref="filterTable">
       <el-table-column prop="ser_name" label="服务器名称"></el-table-column>
       <el-table-column prop="ser_ip" label="服务器IP"></el-table-column>
       <el-table-column
