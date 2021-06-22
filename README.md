@@ -5,6 +5,8 @@
 
 仅作为一个vue+nodejs实现基本CURD和基于jwt的登录验证的例子。
 
-
+node开发版本的问题是：
+缺少检索功能
+考虑在前端使用fuse.js实现模糊检索功能
 
 ![](./pics/pic1.JPG)
